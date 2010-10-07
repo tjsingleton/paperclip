@@ -130,7 +130,8 @@ module Paperclip
         filename = path(style)
         extname  = File.extname(filename)
         basename = File.basename(filename, extname)
-        file = Tempfile.new(basename, extname)
+        file = Tempfile.new([basename, extname])
+        file.binmode
         file.write(AWS::S3::S3Object.value(path(style), bucket_name))
         file.rewind
         return file
